@@ -356,23 +356,56 @@
     gap: 40px;
     align-items: center;
   }
+
+  /* Hamburger Menu */
+  .hamburger {
+    display: none;
+    position: fixed;
+    top: 16px;
+    right: 20px;
+    z-index: 200;
+    background: rgba(13,13,26,0.9);
+    border: 1px solid rgba(245,185,66,0.5);
+    color: var(--gold);
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+  }
+
   @media (max-width: 768px) {
-    nav {
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      justify-content: flex-start;
-      padding: 12px 16px;
-      -webkit-overflow-scrolling: touch;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+    .hamburger {
+      display: flex;
     }
-    nav::-webkit-scrollbar {
-      display: none;
+    nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 250px;
+      height: 100vh;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 80px 24px 24px;
+      background: rgba(13,13,26,0.98);
+      border-left: 1px solid rgba(245,185,66,0.3);
+      border-bottom: none;
+      transition: right 0.3s ease;
+      overflow-y: auto;
+      flex-wrap: nowrap;
+    }
+    nav.active {
+      right: 0;
     }
     nav a {
-      flex-shrink: 0;
-      padding: 8px 16px;
-      font-size: 0.8rem;
+      width: 100%;
+      text-align: center;
+      padding: 16px;
+      font-size: 1.1rem;
+      border: none;
+      border-bottom: 1px solid rgba(245,185,66,0.1);
+      border-radius: 0;
+      margin-bottom: 8px;
     }
     section {
       padding: 90px 20px 50px;
@@ -723,7 +756,14 @@
 <body>
 
 <!-- NAV -->
-<nav>
+<button class="hamburger" id="hamburger-btn">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <line x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>
+</button>
+<nav id="nav-menu">
   <a href="#hero">🏠 Inicio</a>
   <a href="#que-son">📖 ¿Qué son?</a>
   <a href="#contexto">🗺️ Contexto</a>
@@ -1081,6 +1121,21 @@
     navLinks.forEach(a => {
       a.style.background = a.getAttribute('href') === `#${current}` ? 'var(--gold)' : '';
       a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--deep)' : '';
+    });
+  });
+
+  // Hamburger Menu
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const navMenu = document.getElementById('nav-menu');
+  
+  hamburgerBtn.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+  });
+
+  // Close menu when clicking a link
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      navMenu.classList.remove('active');
     });
   });
 </script>
